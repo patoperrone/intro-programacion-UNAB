@@ -64,30 +64,34 @@ print("RTA: en este caso las variables son directamente proporcionales, es de es
 3. ¿Qué pasa cuando haces un gráfico de "clase" versus "traccion"? ¿Por qué no es útil este gráfico?
 
 ```{r}
-```{r}
-ggplot(data=millas,aes(autopista,ciudad)) +
+ggplot(data=millas,aes(clase,traccion)) +
   geom_point()
 ```
-
+```{r}
+print("RTA: las variables no parecen tener ningún tipo de relación, muestran un patrón aleatorio")
+```
 
 4. En otro bloque, rehacé el gráfico de "autopista" versus "ciudad" pero ahora asigná la variable "tracción" al color de los puntos. 
 
 ```{r}
-
+ggplot(data=millas,aes(autopista,ciudad)) +
+  geom_point(aes(color=traccion))
 ```
 
 
 5. En otro bloque, rehacé el gráfico de "autopista" versus "ciudad" pero ahora asigná la variable "tracción" al color de los puntos. 
 
 ```{r}
-
+ggplot(data=millas,aes(autopista,ciudad)) +
+  geom_point(aes(color=traccion))
 ```
 
 
 5. ¿Qué ocurre si se asigna o mapea una estética a algo diferente del nombre de una variable, como `aes(color = cilindrada < 3)`?
 
 ```{r}
-
+ggplot(data=millas,aes(autopista,ciudad)) +
+  geom_point(aes(color=cilindrada < 3))
 ```
 
 

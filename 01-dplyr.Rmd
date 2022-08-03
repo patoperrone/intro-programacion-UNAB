@@ -1,7 +1,7 @@
 ---
 title: "Manipulación de datos con dplyr"
-author: "<tu nombre>"
-date: "2022-07-11"
+author: "Patricia Perrone"
+date: "2022-07-30"
 output: html_document
 ---
 
@@ -10,7 +10,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Completá el espacio con los paquetes que vas a necesitar
 library(datos)  # paquete con datos
-library(____)   # para manipular datos
+library(dplyr)   # para manipular datos
+library(usethis)
+```
+
+# Conecto usuario
+```{r}
+use_git_config(user.name = "patoperrone",
+user.email = "patoperrone@gmail.com")
 ```
 
 # Preparación
@@ -39,12 +46,12 @@ Encontrá todos los vuelos que:
 a.  Tuvieron un retraso de llegada de dos o más horas
 
 ```{r}
-filter(vuelos, atraso_llegada >= ___)
+filter(vuelos, atraso_llegada >= 120)
 ```
 
 Ayuda: si te da un error como este:
 
-    Error in filter(vuelos, atraso_llegada >= 120) : 
+    Error in filter(vuelos, atraso_llegada >= 120) : filter
       object 'atraso_llegada' not found
 
 asegurate de haber cargado el paquete dplyr en el primer bloque de código.
@@ -52,24 +59,24 @@ asegurate de haber cargado el paquete dplyr en el primer bloque de código.
 1.  Encontrá todos los vuelos que:
 
 
-b.  Volaron a Houston (IAH oHOU)
+b.  Volaron a Houston (IAH o HOU)
 
 ```{r}
 
-filter(vuelos, destino == ___ | destino == ___)
+filter(vuelos, destino == "IAH" | destino == "HOU")
 
 ```
 
 c.  Fueron operados por United, American o Delta
 
 ```{r}
-
+filter(vuelos, aerolinea == "American" | aerolinea == "Delta")
 ```
 
 d.  Llegaron más de dos horas tarde, pero no salieron tarde
 
 ```{r}
-
+filter(vuelos, atraso_llegada >= 120 & atraso_salida == 0)
 ```
 
 e.  Partieron entre la medianoche y las 6 a.m. (incluyente)
@@ -77,15 +84,17 @@ e.  Partieron entre la medianoche y las 6 a.m. (incluyente)
 (Ojo, en algunos casos la medianoche está escrita como 2400.)
 
 ```{r}
-
+filter(vuelos, horario_salida >= 0 & horario_salida <=600 | horario_salida >= 2400 & horario_salida <=600)
 ```
 
 2.  Calculá el tiempo de vuelo usando `horario_llegada - horario_salida` ¿Es igual a `tiempo_vuelo`? ¿Cuál es el problema?
 
 ```{r}
-mutate(vuelos, tiempo_de_vuelo = _____)
+mutate(vuelos, tiempo_de_vuelo = horario_llegada - horario_salida)
 ```
-
+```{r}
+print("RTA: El problema es que el horario de salida y el de llegada están expresados en la hora local, por lo que no se puede calcular con la fórmula indicada")
+```
 3.  Calculá el tiempo de vuelo promedio para cada aeropuerto de origen.
 
 (Ayuda: Si hay que calcular algo **para cada *algo***, hay que siempre pensar en groupos.)
@@ -93,19 +102,24 @@ mutate(vuelos, tiempo_de_vuelo = _____)
 ```{r}
 
 vuelos %>% 
-  group_by(____) %>% 
-  summarise(tiempo_vuelo_promedio = mean(____, na.rm = TRUE))
+  group_by(origen) %>% 
+  summarise(tiempo_vuelo_promedio = mean(tiempo_vuelo, na.rm = TRUE))
 
 ```
 
 ¿Por qué hay que poner el argumento `na.rm = TRUE`?
 Fijate qué pasa si lo sacás y buscá en la ayuda de la función `mean` para ver qué hace.
+```{r}
+print("RTA: evita errores en el caso de que haya datos perdidos y no pueda cañlcular los promedios")
+```
 
 4.  Calculá el retraso medio para cada aerolínea.
 
 ```{r}
-
-
+# asumo que se trata del retraso en la salida. 
+vuelos %>% 
+  group_by(origen) %>% 
+  summarise(retraso_promedio = mean(atraso_salida, na.rm = TRUE))
 
 ```
 
