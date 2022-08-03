@@ -19,10 +19,18 @@ vuelos <- datos::vuelos
 Usando arrange()
 
 1. ¿Cuál es el vuelo más retrasado?
+```{r}
+vuelos  %>% arrange(desc(atraso_salida))
+```
 
+El vuelo de mayor retraso es el de la aerolínea HA del día 9/3/2013
 
 2. ¿Cuál es el vuelo que salió con mayor antelación a lo programado?
 
+```{r}
+vuelos  %>% arrange(atraso_salida)
+```
+El vuelo de mayor antelación fue el de la aerolínea B6 del día 7/12/2013
 
 3. Seleccioná las columnas vuelo, codigo_cola, distancia y tiempo_vuelo.
 
