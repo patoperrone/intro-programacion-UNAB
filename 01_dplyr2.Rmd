@@ -33,13 +33,20 @@ vuelos  %>% arrange(atraso_salida)
 El vuelo de mayor antelación fue el de la aerolínea B6 del día 7/12/2013
 
 3. Seleccioná las columnas vuelo, codigo_cola, distancia y tiempo_vuelo.
-
+```{r}
+select(vuelos,vuelo,codigo_cola,distancia, tiempo_vuelo)
+```
 
 4. ¿Qué pasa si seleccionas una columnas más de una vez con select()?
 
+```{r}
+select(vuelos,vuelo,codigo_cola,distancia,vuelo,tiempo_vuelo)
+```
+No importa en qué posición repita el campo, lo pone una sola vez.
 
 5. ¿Cuál es el vuelo que voló más rápido? ¿A qué velocidad media voló?
   Ayuda: podés calcular la velocidad del vuelo como distancia/tiempo_vuelo. Para saber en qué unidades resulta esa velocidad, revisá las unidades de distancia y tiempo_vuelo en ?vuelos.
+
 
 6. Calculá la velocidad media de cada aerolínea y ordená el resultado de mayor a menor. ¿Qué aerolínea es más rápida?
 
